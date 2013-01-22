@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.qsardb</groupId>
+		<artifactId>cargo</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>org.qsardb.cargo</groupId>
+	<artifactId>rds</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.qsardb</groupId>
+			<artifactId>model</artifactId>
+		</dependency>
+
+		<!--
+		The Java/R interface JRI is part of rJava.
+		For more information see: http://www.rforge.net/JRI/index.html
+
+		It must be installed into the Maven local repository using the following command:
+		mvn install:install-file -DgroupId=org.rosuda -DartifactId=jri -Dversion=0.9-3 -Dpackaging=jar -Dfile=JRI.jar
+		-->
+		<dependency>
+			<groupId>org.rosuda</groupId>
+			<artifactId>jri</artifactId>
+			<version>0.9-3</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+	</build>
+</project>

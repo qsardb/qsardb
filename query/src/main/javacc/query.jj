@@ -1,0 +1,214 @@
+/*
+ * Copyright (c) 2009 University of Tartu
+ */
+PARSER_BEGIN(ExpressionParser)
+package org.qsardb.query;
+
+import java.io.*;
+
+public class ExpressionParser {
+
+	public ExpressionParser(){
+		this(new StringReader(""));
+	}
+
+	static
+	private class ExpressionRef {
+
+		private Expression expression = null;
+
+
+		public boolean empty(){
+			return this.expression == null;
+		}
+
+		public Expression peek(){
+			return this.expression;
+		}
+
+		public Expression get(){
+
+			if(this.expression == null){
+				throw new IllegalStateException();
+			}
+
+			try {
+				return peek();
+			} finally {
+				this.expression = null;
+			}
+		}
+
+		public void set(Expression expression){
+
+			if(this.expression != null){
+				throw new IllegalStateException();
+			}
+
+			this.expression = expression;
+		}
+	}
+}
+PARSER_END(ExpressionParser)
+
+<DEFAULT>
+SKIP :
+{
+	" "
+	|
+	"\t"
+	|
+	"\n"
+	|
+	"\f"
+	|
+	"\r"
+}
+
+<DEFAULT>
+TOKEN [IGNORE_CASE] :
+{
+	< AND : 
+		<AND_TEXT>
+		|
+		<AND_SYMBOL>
+	>
+	|
+	< #AND_TEXT : "AND" >
+	|
+	< #AND_SYMBOL : "&" >
+	|
+	< OR : 
+		<OR_TEXT>
+		|
+		<OR_SYMBOL>
+	>
+	|
+	< #OR_TEXT : "OR" >
+	|
+	< #OR_SYMBOL : "|" >
+	|
+	< NOT : 
+		<NOT_TEXT>
+		|
+		<NOT_SYMBOL>
+	>
+	|
+	< #NOT_TEXT : "NOT" >
+	|
+	< #NOT_SYMBOL : "!" >
+}
+
+<DEFAULT>
+TOKEN :
+{
+	< LPAREN : "(" >
+	|
+	< RPAREN : ")" >
+}
+
+<DEFAULT>
+TOKEN :
+{
+	< IDENTIFIER : ( [ "0"-"9", "a"-"z", "A"-"Z", ".", "-", "_" ] )+ >
+}
+
+public Expression parse(String string) :
+{
+	ReInit(new StringReader(string));
+
+	ExpressionRef child = new ExpressionRef();
+}
+{
+	Expression(child) <EOF>
+
+	{
+		return child.get();
+	}
+}
+
+private void Expression(ExpressionRef parent) :
+{}
+{
+	OrExpression(parent)
+}
+
+private void OrExpression(ExpressionRef parent) :
+{
+	ExpressionRef leftChild = new ExpressionRef();
+	ExpressionRef rightChild = new ExpressionRef();
+}
+{
+	AndExpression(leftChild) ( <OR> OrExpression(rightChild) )?
+	{
+		if(rightChild.empty()){
+			parent.set(leftChild.peek());
+		} else {
+			parent.set(new OrExpression(leftChild.peek(), rightChild.peek()));
+		}
+	}
+}
+
+private void AndExpression(ExpressionRef parent) :
+{
+	ExpressionRef leftChild = new ExpressionRef();
+	ExpressionRef rightChild = new ExpressionRef();
+}
+{
+	SimpleExpression(leftChild) ( <AND> AndExpression(rightChild) )?
+	{
+		if(rightChild.empty()){
+			parent.set(leftChild.peek());
+		} else {
+			parent.set(new AndExpression(leftChild.peek(), rightChild.peek()));
+		}
+	}
+}
+
+private void SimpleExpression(ExpressionRef parent) :
+{}
+{
+	ParenthesizedExpression(parent)
+	|
+	UnaryExpression(parent)
+}
+
+private void ParenthesizedExpression(ExpressionRef parent) :
+{
+	ExpressionRef child = new ExpressionRef();
+}
+{
+	<LPAREN> Expression(child) <RPAREN>
+	{
+		parent.set(new ParenthesizedExpression(child.peek()));
+	}
+}
+
+private void UnaryExpression(ExpressionRef parent) :
+{}
+{
+	NotExpression(parent)
+	|
+	LabelExpression(parent)
+}
+
+private void NotExpression(ExpressionRef parent) :
+{
+	ExpressionRef child = new ExpressionRef();
+}
+{
+	<NOT> SimpleExpression(child)
+	{
+		parent.set(new NotExpression(child.peek()));
+	}
+}
+
+private void LabelExpression(ExpressionRef parent) :
+{}
+{
+	<IDENTIFIER>
+	{
+		parent.set(new LabelExpression(token.image));
+	}
+}
+
