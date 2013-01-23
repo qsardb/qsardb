@@ -5,9 +5,9 @@ package org.qsardb.model;
 
 import java.util.regex.*;
 
-public class QdbUtil {
+public class IdUtil {
 
-	private QdbUtil(){
+	private IdUtil(){
 	}
 
 	/**
@@ -26,7 +26,7 @@ public class QdbUtil {
 	 * @see Cargo#getId()
 	 */
 	static
-	public boolean validateId(String id){
+	public boolean validate(String id){
 
 		if(id.equals("")){
 			return false;
@@ -36,7 +36,7 @@ public class QdbUtil {
 			return false;
 		}
 
-		Matcher matcher = QdbUtil.pattern.matcher(id);
+		Matcher matcher = IdUtil.pattern.matcher(id);
 
 		return matcher.matches();
 	}

@@ -72,7 +72,7 @@ public class Cargo<C extends Container> implements Stateable, Resource {
 			throw new NullPointerException("The identifier is null");
 		} // End if
 
-		if(id != null && !QdbUtil.validateId(id)){
+		if(id != null && !IdUtil.validate(id)){
 			throw new IllegalArgumentException("The identifier \"" + id + "\" is not valid");
 		}
 

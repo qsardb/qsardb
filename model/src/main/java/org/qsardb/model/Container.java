@@ -94,7 +94,7 @@ public class Container<R extends ContainerRegistry<R, C>, C extends Container<R,
 			throw new IllegalStateException("The Container is already registered with a Container registry");
 		} // End if
 
-		if(id != null && !QdbUtil.validateId(id)){
+		if(id != null && !IdUtil.validate(id)){
 			throw new IllegalArgumentException("The identifier \"" + id + "\" is not valid");
 		}
 
