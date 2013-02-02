@@ -210,7 +210,7 @@ public class Container<R extends ContainerRegistry<R, C>, C extends Container<R,
 
 	/**
 	 * @throws IllegalArgumentException If the Cargo does not exist.
-	 * @see #hasCargo(Class))
+	 * @see #hasCargo(Class)
 	 */
 	public <X extends Cargo> X getCargo(Class<? extends X> clazz){
 		Cargo<C> result = getCargo(createCargo(clazz));
