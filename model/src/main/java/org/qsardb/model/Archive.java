@@ -71,7 +71,7 @@ public class Archive implements Resource {
 		this.qdb = qdb;
 	}
 
-	private void initialize(){
+	void initialize(){
 		this.initialized = true;
 	}
 

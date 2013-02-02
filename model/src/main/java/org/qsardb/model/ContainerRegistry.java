@@ -260,7 +260,7 @@ public class ContainerRegistry<R extends ContainerRegistry<R, C>, C extends Cont
 	@SuppressWarnings (
 		value = {"unchecked"}
 	)
-	private void initialize(){
+	void initialize(){
 		this.containerMap.clear();
 
 		for(C container : this){
