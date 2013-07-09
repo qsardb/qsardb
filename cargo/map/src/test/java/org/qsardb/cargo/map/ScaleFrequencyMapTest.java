@@ -52,6 +52,17 @@ public class ScaleFrequencyMapTest {
 	}
 
 	@Test
+	public void getVariablePattern2(){
+		ScaleFrequencyMap map = new ScaleFrequencyMap();
+
+		map.add(new BigDecimal("0"));
+		assertEquals("0", map.getPattern());
+
+		map.add(new BigDecimal("0.333333"));
+		assertEquals("0.####", map.getPattern());
+	}
+
+	@Test
 	public void integerSample(){
 		Collection<Integer> sample = Arrays.asList(1, 2, 3, 4, 5);
 

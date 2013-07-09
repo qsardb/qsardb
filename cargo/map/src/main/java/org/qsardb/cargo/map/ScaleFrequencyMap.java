@@ -27,7 +27,7 @@ public class ScaleFrequencyMap extends FrequencyMap<Integer> {
 
 		int diff = (max - min);
 
-		if(min > 0 || (diff > 0 && diff <= 4)){
+		if(min > 0 || diff > 0){
 			sb.append('.');
 
 			max = Math.min(min + 4, max);
