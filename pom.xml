@@ -2,9 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
 	<groupId>org.qsardb</groupId>
 	<artifactId>qsardb</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
 	<organization>
@@ -38,9 +44,10 @@
 	</modules>
 
 	<scm>
-		<connection>scm:git:https://github.com/qsardb/qsardb.git</connection>
-		<developerConnection>scm:git:https://github.com/qsardb/qsardb.git</developerConnection>
+		<connection>scm:git:git://github.com/qsardb/qsardb.git</connection>
+		<developerConnection>scm:git:git://github.com/qsardb/qsardb.git</developerConnection>
 		<url>https://github.com/qsardb/qsardb.git</url>
+		<tag>1.0.0</tag>
 	</scm>
 	<issueManagement>
 		<system>GitHub</system>
@@ -52,7 +59,7 @@
 			<dependency>
 				<groupId>org.qsardb</groupId>
 				<artifactId>model</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>1.0.0</version>
 			</dependency>
 
 			<dependency>
