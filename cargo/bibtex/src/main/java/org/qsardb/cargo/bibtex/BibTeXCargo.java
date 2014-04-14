@@ -45,7 +45,7 @@ public class BibTeXCargo extends Cargo<Container> {
 		InputStream is = getInputStream();
 
 		try {
-			Reader reader = new InputStreamReader(is, "US-ASCII");
+			Reader reader = new InputStreamReader(is, "UTF-8");
 
 			try {
 				BibTeXParser parser = new BibTeXParser();
@@ -65,7 +65,7 @@ public class BibTeXCargo extends Cargo<Container> {
 		OutputStream os = getOutputStream();
 
 		try {
-			Writer writer = new OutputStreamWriter(os, "US-ASCII");
+			Writer writer = new OutputStreamWriter(os, "UTF-8");
 
 			try {
 				BibTeXFormatter formatter = new BibTeXFormatter();
