@@ -173,6 +173,29 @@ public class Cargo<C extends Container> implements Stateable, Resource {
 	}
 
 	/**
+	 * Tests whether the Cargo's payload is loadable.
+	 * 
+	 * @return returns true if cargo content is safe to load, false otherwise
+	 */
+	public boolean isLoadable() {
+		if (getPayload() instanceof NullPayload) {
+			return false;
+		}
+		
+		try {
+			InputStream is = getInputStream();
+			try {
+				is.read();
+				return true;
+			} finally {
+				is.close();
+			}
+		} catch (IOException ex) {
+			return false;
+		}
+	}
+
+	/**
 	 * @see #isBinary()
 	 *
 	 * @return &quot;application/octet-stream&quot; for binary payloads, &quot;text/plain&quot; for text payloads.
