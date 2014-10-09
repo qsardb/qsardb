@@ -57,7 +57,7 @@ public class DirectoryStorage implements Storage {
 
 		addDirectory(file.getParentFile());
 
-		if(!file.createNewFile()){
+		if(!file.exists() && !file.createNewFile()){
 			throw new IOException("Failed to add file " + file);
 		}
 	}
@@ -65,7 +65,7 @@ public class DirectoryStorage implements Storage {
 	public void remove(String path) throws IOException {
 		File file = getFile(path);
 
-		if(!file.exists() || !file.delete()){
+		if(file.exists() && !file.delete()){
 			throw new IOException("Failed to remove file " + file);
 		}
 
