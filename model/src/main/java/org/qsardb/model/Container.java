@@ -218,8 +218,8 @@ public class Container<R extends ContainerRegistry<R, C>, C extends Container<R,
 		if(!clazz.isInstance(result)){
 			X cargo = createCargo(clazz);
 
-			cargo.setState(result.getState());
 			cargo.setPayload(result.getPayload());
+			cargo.setState(result.getState());
 
 			this.cargoMap.put(cargo.getId(), cargo);
 
