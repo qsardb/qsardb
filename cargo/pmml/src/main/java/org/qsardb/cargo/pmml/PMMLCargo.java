@@ -10,8 +10,6 @@ import javax.xml.bind.*;
 import org.qsardb.model.*;
 import org.qsardb.model.Model;
 
-import org.jpmml.manager.*;
-
 import org.dmg.pmml.*;
 
 import org.xml.sax.*;

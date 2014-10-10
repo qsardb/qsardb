@@ -16,7 +16,7 @@
 			<dependency>
 				<groupId>org.jbibtex</groupId>
 				<artifactId>jbibtex</artifactId>
-				<version>1.0.11</version>
+				<version>1.0.14</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
