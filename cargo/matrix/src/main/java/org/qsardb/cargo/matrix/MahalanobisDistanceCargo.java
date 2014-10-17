@@ -70,6 +70,24 @@ public class MahalanobisDistanceCargo extends MatrixCargo {
 		return getMahalanobisDistances(compounds, matrix, mu, covInv);
 	}
 
+	@Override
+	public double predict(Map<String, Double> descriptorValues) throws IOException, ClassNotFoundException {
+		Payload payload = (Payload)loadObject();
+
+		SimpleMatrix xt = new SimpleMatrix(payload.getDescriptorIds().size(), 1);
+		int idx = 0;
+		for(String id : payload.getDescriptorIds()) {
+			xt.set(idx++, 0, descriptorValues.get(id));
+		}
+
+		SimpleMatrix mu = SimpleMatrix.wrap(payload.getMuMatrix());
+		SimpleMatrix covInv = SimpleMatrix.wrap(payload.getCovInvMatrix());
+
+		SimpleMatrix diff = xt.minus(mu);
+		SimpleMatrix md = (diff.transpose()).mult(covInv).mult(diff);
+		return Math.sqrt(md.get(0, 0));
+	}
+
 	static
 	private Map<Compound, Double> getMahalanobisDistances(List<Compound> compounds, SimpleMatrix matrix, SimpleMatrix mu, SimpleMatrix covInv){
 		Map<Compound, Double> result = new LinkedHashMap<Compound, Double>();
