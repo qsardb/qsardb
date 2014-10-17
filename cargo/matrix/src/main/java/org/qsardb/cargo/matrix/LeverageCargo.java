@@ -44,6 +44,14 @@ public class LeverageCargo extends MatrixCargo {
 		return Double.valueOf(3D * (descriptors.size() + 1D) / compounds.size());
 	}
 
+	private SimpleMatrix calculateLeverages(Payload payload, SimpleMatrix x) {
+		SimpleMatrix xTrans = x.transpose();
+
+		SimpleMatrix matrix = SimpleMatrix.wrap(payload.getMatrix());
+
+		return x.mult(matrix).mult(xTrans);
+	}
+
 	@Override
 	public Map<Compound, Double> predict(List<Compound> compounds) throws IOException, ClassNotFoundException {
 		Payload payload = (Payload)loadObject();
@@ -51,13 +59,27 @@ public class LeverageCargo extends MatrixCargo {
 		List<Descriptor> descriptors = MatrixUtil.fromIdList(getQdb(), payload.getDescriptorIds());
 
 		SimpleMatrix x = createMatrix(compounds, descriptors);
-		SimpleMatrix xTrans = x.transpose();
 
-		SimpleMatrix matrix = SimpleMatrix.wrap(payload.getMatrix());
+		return getLeverages(compounds, calculateLeverages(payload, x));
+	}
 
-		SimpleMatrix H = x.mult(matrix).mult(xTrans);
+	@Override
+	public double predict(Map<String, Double> descriptorValues) throws IOException, ClassNotFoundException {
+		Payload payload = (Payload)loadObject();
 
-		return getLeverages(compounds, H);
+		SimpleMatrix x = new SimpleMatrix(1, payload.getDescriptorIds().size() + 1);
+		x.set(0, 0, 1.0);
+		int descIdx = 1;
+		for(String id : payload.getDescriptorIds()) {
+			if(descriptorValues.containsKey(id)) {
+				x.set(0, descIdx, descriptorValues.get(id));
+				descIdx++;
+			} else {
+				throw new IllegalArgumentException("Missing descriptor value for "+id);
+			}
+		}
+
+		return calculateLeverages(payload, x).get(0, 0);
 	}
 
 	static

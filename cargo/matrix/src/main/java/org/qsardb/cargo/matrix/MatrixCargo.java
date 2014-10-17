@@ -24,6 +24,10 @@ public class MatrixCargo extends Cargo<Model> {
 	abstract
 	public Map<Compound, Double> predict(List<Compound> compounds) throws IOException, ClassNotFoundException;
 
+	public double predict(Map<String, Double> descriptorValues) throws IOException, ClassNotFoundException {
+		throw new UnsupportedOperationException();
+	}
+
 	public Object loadObject() throws IOException, ClassNotFoundException {
 		ObjectInputStream is = new ObjectInputStream(getInputStream());
 
