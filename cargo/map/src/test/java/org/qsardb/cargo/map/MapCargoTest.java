@@ -48,6 +48,34 @@ public class MapCargoTest {
 		assertEquals(booleanMap, this.cargo.loadBooleanMap());
 	}
 
+	@Test
+	public void storeStringCaching() throws IOException {
+		Map<String, String> stringMap1 = this.cargo.loadStringMap();
+
+		this.cargo.storeString("key\tstoreString");
+		Map<String, String> stringMap2 = this.cargo.loadStringMap();
+		assertNotSame(stringMap1, stringMap2);
+		assertEquals("storeString", stringMap2.get("key"));
+	}
+
+	@Test
+	public void storeByteArrayCaching() throws IOException {
+		Map<String, String> stringMap1 = this.cargo.loadStringMap();
+		this.cargo.storeByteArray("key\tstoreByteArray".getBytes());
+		Map<String, String> stringMap2 = this.cargo.loadStringMap();
+		assertNotSame(stringMap1, stringMap2);
+		assertEquals("storeByteArray", stringMap2.get("key"));
+	}
+
+	@Test
+	public void setPayloadCaching() throws IOException {
+		Map<String, String> stringMap1 = this.cargo.loadStringMap();
+		this.cargo.setPayload(new StringPayload("key\tsetPayload"));
+		Map<String, String> stringMap2 = this.cargo.loadStringMap();
+		assertNotSame(stringMap1, stringMap2);
+		assertEquals("setPayload", stringMap2.get("key"));
+	}
+
 	@Before
 	public void begin() throws IOException {
 		this.property = new Property();

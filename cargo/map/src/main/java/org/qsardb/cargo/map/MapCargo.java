@@ -49,6 +49,12 @@ public class MapCargo<P extends Parameter> extends Cargo<P> {
 		this.cache.clear();
 	}
 
+	@Override
+	public void setPayload(Payload payload) {
+		super.setPayload(payload);
+		this.cache.clear();
+	}
+
 	public Map<String, Boolean> loadBooleanMap() throws IOException {
 		return loadMap(new BooleanFormat());
 	}
