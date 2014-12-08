@@ -127,7 +127,6 @@ public class MapCargo<P extends Parameter> extends Cargo<P> {
 	}
 
 	private boolean isHeader(String key, String value){
-
 		if(key.equalsIgnoreCase(keyName()) || value.equalsIgnoreCase(valueName())){
 			return true;
 		} else
@@ -169,38 +168,42 @@ public class MapCargo<P extends Parameter> extends Cargo<P> {
 		OutputStream os = getOutputStream();
 
 		try {
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
-
-			String sep = "";
-
-			// header record
-			if(valueName() != null){
-				writer.write(keyName());
-				writer.write('\t');
-				writer.write(valueName());
-
-				sep = "\n";
-			}
-
-			for(Map.Entry<String, V> entry : map.entrySet()){
-				writer.write(sep);
-
-				String key = entry.getKey();
-				String value = formatter.format(entry.getValue());
-
-				// data record
-				writer.write(key);
-				writer.write('\t');
-				writer.write(value);
-
-				sep = "\n";
-			}
-
-			writer.flush();
+			formatMap(map, formatter, os);
 		} finally {
 			os.close();
 		}
 
 		this.cache.clear();
+	}
+
+	public <V> void formatMap(Map<String, V> map, ValueFormat<V> formatter, OutputStream os) throws IOException {
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
+
+		String sep = "";
+
+		// header record
+		if(valueName() != null){
+			writer.write(keyName());
+			writer.write('\t');
+			writer.write(valueName());
+
+			sep = "\n";
+		}
+
+		for(Map.Entry<String, V> entry : map.entrySet()){
+			writer.write(sep);
+
+			String key = entry.getKey();
+			String value = formatter.format(entry.getValue());
+
+			// data record
+			writer.write(key);
+			writer.write('\t');
+			writer.write(value);
+
+			sep = "\n";
+		}
+
+		writer.flush();
 	}
 }
