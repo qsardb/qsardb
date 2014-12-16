@@ -52,7 +52,10 @@ public class RDSObject {
 	public String getSummary() throws IOException {
 		String object = ensureObject();
 
-		REXP result = eval(object + "$getSummary(" + object+ ")");
+		// Workaround for ONS random forest models in the QsarDB repository
+		// that don't have getSummary method in the RDS cargo.
+		String summaryScript = "ifelse(exists(\"getSummary\", object), object$getSummary(object), ifelse(exists(\"rfmodel\", object), paste(\"Random forest (\", object$rfmodel$type, \")\", sep=\"\"), \"(Unknown model)\"))";
+		REXP result = eval(summaryScript.replaceAll("object", object));
 
 		switch(result.getType()){
 			case REXP.XT_STR:
