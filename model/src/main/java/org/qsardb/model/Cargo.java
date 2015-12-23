@@ -363,7 +363,12 @@ public class Cargo<C extends Container> implements Stateable, Resource {
 
 	static
 	private void store(Cargo<?> cargo, Storage storage) throws IOException {
-		InputStream is = cargo.getInputStream();
+		InputStream is;
+		try {
+			is = cargo.getInputStream();
+		} catch (FileNotFoundException ex) {
+			return; // cargo without payload
+		}
 
 		try {
 			OutputStream os = storage.getOutputStream(cargo.qdbPath());
