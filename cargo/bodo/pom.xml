@@ -57,8 +57,8 @@
 
 	<repositories>
 		<repository>
-			<id>ambit.uni-plovdiv.bg</id>
-			<url>http://ambit.uni-plovdiv.bg:8083/nexus/content/repositories/thirdparty</url>
+			<id>nexus.ideaconsult.net</id>
+			<url>https://nexus.ideaconsult.net/content/repositories/thirdparty/</url>
 		</repository>
 	</repositories>
 
