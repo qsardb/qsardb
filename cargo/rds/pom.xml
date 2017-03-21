@@ -17,17 +17,10 @@
 			<artifactId>model</artifactId>
 		</dependency>
 
-		<!--
-		The Java/R interface JRI is part of rJava.
-		For more information see: http://www.rforge.net/JRI/index.html
-
-		It must be installed into the Maven local repository using the following command:
-		mvn install:install-file -DgroupId=org.rosuda -DartifactId=jri -Dversion=0.9-3 -Dpackaging=jar -Dfile=JRI.jar
-		-->
 		<dependency>
-			<groupId>org.rosuda</groupId>
-			<artifactId>jri</artifactId>
-			<version>0.9-3</version>
+			<groupId>org.nuiton.thirdparty</groupId>
+			<artifactId>JRI</artifactId>
+			<version>0.9-6</version>
 		</dependency>
 	</dependencies>
 
