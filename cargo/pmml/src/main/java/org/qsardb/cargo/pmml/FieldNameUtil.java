@@ -87,7 +87,7 @@ public class FieldNameUtil {
 		if(value.indexOf('/') > -1){
 
 			if(!value.startsWith(type + "/")){
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("Expected "+type+"/ prefix: "+value);
 			}
 
 			return value.substring((type + "/").length());
