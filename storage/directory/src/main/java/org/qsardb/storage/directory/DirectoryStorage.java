@@ -88,7 +88,7 @@ public class DirectoryStorage implements Storage {
 	private void addDirectory(File dir) throws IOException {
 
 		if(!dir.exists() && !dir.mkdirs()){
-			throw new IOException();
+			throw new IOException("Failed to create directory " + dir);
 		}
 	}
 

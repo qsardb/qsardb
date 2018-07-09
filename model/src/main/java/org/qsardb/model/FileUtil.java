@@ -31,7 +31,7 @@ public class FileUtil {
 
 		boolean success = dir.delete();
 		if(!success){
-			throw new IOException();
+			throw new IOException("Unable to delete temporary directory "+dir);
 		}
 	}
 

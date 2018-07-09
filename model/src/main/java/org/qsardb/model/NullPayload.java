@@ -11,6 +11,6 @@ class NullPayload implements Payload {
 	 * @throws IOException Always.
 	 */
 	public InputStream getInputStream() throws IOException {
-		throw new IOException();
+		throw new IOException("Attempting to load NullPayload");
 	}
 }
