@@ -41,5 +41,5 @@ public class IdUtil {
 		return matcher.matches();
 	}
 
-	private static Pattern pattern = Pattern.compile("[\\p{Graph}&&[^/\\\\\\:]]+");
+	private static Pattern pattern = Pattern.compile("[\\p{Graph}&&[^/\\\\\\:<>]]+");
 }
