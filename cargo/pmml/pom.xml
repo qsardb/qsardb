@@ -17,6 +17,12 @@
 				<groupId>org.jpmml</groupId>
 				<artifactId>pmml-model</artifactId>
 				<version>1.0.22</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.jpmml</groupId>
+						<artifactId>xjc</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
