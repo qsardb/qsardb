@@ -13,21 +13,13 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.qsardb</groupId>
-			<artifactId>model</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.qsardb.storage</groupId>
 			<artifactId>directory</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-exec</artifactId>
 			<version>1.0</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-	</build>
 </project>

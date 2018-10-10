@@ -10,11 +10,4 @@
 
 	<groupId>org.qsardb.cargo</groupId>
 	<artifactId>structure</artifactId>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.qsardb</groupId>
-			<artifactId>model</artifactId>
-		</dependency>
-	</dependencies>
 </project>
