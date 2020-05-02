@@ -98,7 +98,7 @@ public class SignedZipFileOutput extends ZipFileOutput {
 
 			List<Reference> references = new ArrayList<Reference>();
 			for(Entry entry : this.entries){
-				references.add(signatureFactory.newReference(entry.getPath(), signatureFactory.newDigestMethod(DigestMethod.SHA1, null), Collections.emptyList(), null, null, entry.getDigest()));
+				references.add(signatureFactory.newReference(entry.getPath(), signatureFactory.newDigestMethod(DigestMethod.SHA1, null), Collections.<Transform>emptyList(), null, null, entry.getDigest()));
 			}
 
 			SignedInfo signedInfo = signatureFactory.newSignedInfo(signatureFactory.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE, (C14NMethodParameterSpec)null), signatureFactory.newSignatureMethod(SignatureMethod.DSA_SHA1, null), references);
