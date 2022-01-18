@@ -10,11 +10,11 @@ import org.rosuda.JRI.*;
 
 public class RDSObject {
 
-	private Rengine engine = null;
+	private Rengine rEngine = null;
 
 	private File file = null;
 
-	private String object = null;
+	private String objectName = null;
 
 
 	public RDSObject(Rengine engine, File file){
@@ -55,7 +55,7 @@ public class RDSObject {
 		// Workaround for ONS random forest models in the QsarDB repository
 		// that don't have getSummary method in the RDS cargo.
 		String summaryScript = "ifelse(exists(\"getSummary\", object), object$getSummary(object), ifelse(exists(\"rfmodel\", object), paste(\"Random forest (\", object$rfmodel$type, \")\", sep=\"\"), \"(Unknown model)\"))";
-		REXP result = eval(summaryScript.replaceAll("object", object));
+		REXP result = eval(summaryScript.replace("object", object));
 
 		switch(result.getType()){
 			case REXP.XT_STR:
@@ -100,30 +100,28 @@ public class RDSObject {
 
 	public void clear() throws IOException {
 
-		if(this.object != null){
-			eval("rm(" + this.object + ")");
+		if(this.objectName != null){
+			eval("rm(" + this.objectName + ")");
 
-			this.object = null;
+			this.objectName = null;
 		}
 	}
 
 	private String ensureObject() throws IOException {
 
-		if(this.object == null){
+		if(this.objectName == null){
 			String object = "rds_" + Math.abs(System.identityHashCode(this));
 
 			eval(object + " = readRDS(file = \'" + getPath() + "\')");
 
-			this.object = object;
+			this.objectName = object;
 		}
 
-		return this.object;
+		return this.objectName;
 	}
 
 	private REXP eval(String string) throws IOException {
-		Rengine engine = ensureEngine();
-
-		REXP result = engine.eval(string);
+		REXP result = ensureEngine().eval(string);
 		if(result == null){
 			throw new IOException();
 		}
@@ -132,9 +130,7 @@ public class RDSObject {
 	}
 
 	private void assign(String symbol, REXP expression) throws IOException {
-		Rengine engine = ensureEngine();
-
-		engine.assign(symbol, expression);
+		ensureEngine().assign(symbol, expression);
 	}
 
 	private Rengine ensureEngine() throws IOException {
@@ -156,11 +152,11 @@ public class RDSObject {
 	}
 
 	public Rengine getEngine(){
-		return this.engine;
+		return this.rEngine;
 	}
 
 	private void setEngine(Rengine engine){
-		this.engine = engine;
+		this.rEngine = engine;
 	}
 
 	public File getFile(){
