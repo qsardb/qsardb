@@ -187,7 +187,7 @@ public class RDSObject {
 			throw new IllegalArgumentException();
 		}
 
-		return Double.valueOf(values[0]);
+		return values[0];
 	}
 
 	static
@@ -197,7 +197,7 @@ public class RDSObject {
 			throw new IllegalArgumentException();
 		}
 
-		return Integer.valueOf(values[0]);
+		return values[0];
 	}
 
 	static
