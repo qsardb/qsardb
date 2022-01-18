@@ -110,7 +110,7 @@ public class RDSObject {
 	private String ensureObject() throws IOException {
 
 		if(this.object == null){
-			String object = "rds_" + System.identityHashCode(this);
+			String object = "rds_" + Math.abs(System.identityHashCode(this));
 
 			eval(object + " = readRDS(file = \'" + getPath() + "\')");
 
