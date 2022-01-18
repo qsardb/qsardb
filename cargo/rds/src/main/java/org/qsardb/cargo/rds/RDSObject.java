@@ -3,21 +3,20 @@
  */
 package org.qsardb.cargo.rds;
 
-import java.io.*;
-import java.util.*;
-
-import org.rosuda.JRI.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import org.rosuda.JRI.REXP;
+import org.rosuda.JRI.Rengine;
 
 public class RDSObject {
 
 	private Rengine rEngine = null;
-
 	private File file = null;
-
 	private String objectName = null;
 
-
-	public RDSObject(Rengine engine, File file){
+	public RDSObject(Rengine engine, File file) {
 		setEngine(engine);
 		setFile(file);
 	}
@@ -25,9 +24,9 @@ public class RDSObject {
 	public String getPropertyId() throws IOException {
 		String object = ensureObject();
 
-		REXP result = eval(object + "$getPropertyId(" + object+ ")");
+		REXP result = eval(object + "$getPropertyId(" + object + ")");
 
-		switch(result.getType()){
+		switch (result.getType()) {
 			case REXP.XT_STR:
 				return result.asString();
 			default:
@@ -40,7 +39,7 @@ public class RDSObject {
 
 		REXP result = eval(object + "$getDescriptorIdList(" + object + ")");
 
-		switch(result.getType()){
+		switch (result.getType()) {
 			case REXP.XT_STR:
 			case REXP.XT_ARRAY_STR:
 				return Arrays.asList(result.asStringArray());
@@ -57,7 +56,7 @@ public class RDSObject {
 		String summaryScript = "ifelse(exists(\"getSummary\", object), object$getSummary(object), ifelse(exists(\"rfmodel\", object), paste(\"Random forest (\", object$rfmodel$type, \")\", sep=\"\"), \"(Unknown model)\"))";
 		REXP result = eval(summaryScript.replace("object", object));
 
-		switch(result.getType()){
+		switch (result.getType()) {
 			case REXP.XT_STR:
 				return result.asString();
 			default:
@@ -80,7 +79,7 @@ public class RDSObject {
 			eval("rm(" + objectValues + ")");
 		}
 
-		switch(result.getType()){
+		switch (result.getType()) {
 			case REXP.XT_DOUBLE:
 				return asDouble(result.asDouble());
 			case REXP.XT_ARRAY_DOUBLE:
@@ -99,8 +98,7 @@ public class RDSObject {
 	}
 
 	public void clear() throws IOException {
-
-		if(this.objectName != null){
+		if (this.objectName != null) {
 			eval("rm(" + this.objectName + ")");
 
 			this.objectName = null;
@@ -108,8 +106,7 @@ public class RDSObject {
 	}
 
 	private String ensureObject() throws IOException {
-
-		if(this.objectName == null){
+		if (this.objectName == null) {
 			String object = "rds_" + Math.abs(System.identityHashCode(this));
 
 			eval(object + " = readRDS(file = \'" + getPath() + "\')");
@@ -122,7 +119,7 @@ public class RDSObject {
 
 	private REXP eval(String string) throws IOException {
 		REXP result = ensureEngine().eval(string);
-		if(result == null){
+		if (result == null) {
 			throw new IOException();
 		}
 
@@ -135,44 +132,43 @@ public class RDSObject {
 
 	private Rengine ensureEngine() throws IOException {
 		Rengine engine = getEngine();
-		if(engine == null){
+		if (engine == null) {
 			throw new IOException();
 		}
 
 		return engine;
 	}
 
-	private String getPath(){
+	private String getPath() {
 		String path = getFile().getAbsolutePath();
-		if(path.indexOf('\\') > -1){
+		if (path.indexOf('\\') > -1) {
 			path = path.replace('\\', '/');
 		}
 
 		return path;
 	}
 
-	public Rengine getEngine(){
+	public Rengine getEngine() {
 		return this.rEngine;
 	}
 
-	private void setEngine(Rengine engine){
+	private void setEngine(Rengine engine) {
 		this.rEngine = engine;
 	}
 
-	public File getFile(){
+	public File getFile() {
 		return this.file;
 	}
 
-	private void setFile(File file){
+	private void setFile(File file) {
 		this.file = file;
 	}
 
-	static
-	private REXP toREXP(List<Object> values){
+	static private REXP toREXP(List<Object> values) {
 		double[] array = new double[values.size()];
 
-		for(int i = 0; i < values.size(); i++){
-			Number value = (Number)values.get(i);
+		for (int i = 0; i < values.size(); i++) {
+			Number value = (Number) values.get(i);
 
 			array[i] = value.doubleValue();
 		}
@@ -180,30 +176,24 @@ public class RDSObject {
 		return new REXP(array);
 	}
 
-	static
-	private Double asDouble(double... values){
-
-		if(values.length != 1){
+	static private Double asDouble(double... values) {
+		if (values.length != 1) {
 			throw new IllegalArgumentException();
 		}
 
 		return values[0];
 	}
 
-	static
-	private Integer asInteger(int... values){
-
-		if(values.length != 1){
+	static private Integer asInteger(int... values) {
+		if (values.length != 1) {
 			throw new IllegalArgumentException();
 		}
 
 		return values[0];
 	}
 
-	static
-	private String asString(String... values){
-
-		if(values.length != 1){
+	static private String asString(String... values) {
+		if (values.length != 1) {
 			throw new IllegalArgumentException();
 		}
 
