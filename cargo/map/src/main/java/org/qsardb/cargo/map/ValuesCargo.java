@@ -26,7 +26,7 @@ public class ValuesCargo extends MapCargo<Parameter> {
 
 	@Override
 	protected String valueName(){
-		return getContainer().getName();
+		return getContainer().getId();
 	}
 
 	public static final String ID = "values";
